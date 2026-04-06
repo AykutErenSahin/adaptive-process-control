@@ -1,0 +1,27 @@
+# SAC + Termal Proses Kontrol Konfigürasyonu
+# Bu değerler Faz 1'deki system identification sonuçlarına göre güncellenecek
+
+env:
+  tau: 60.0              # Termal zaman sabiti (saniye) — Faz 1'de ölçülecek
+  K: 0.15                # Sistem kazancı — Faz 1'de ölçülecek
+  control_interval: 2.0  # Kontrol döngüsü aralığı (saniye)
+  temp_max: 55.0         # Güvenlik üst limiti (°C)
+  temp_min: 10.0         # Güvenlik alt limiti (°C)
+
+agent:
+  hidden_dim: 256
+  lr: 0.0003             # Learning rate
+  gamma: 0.99            # Discount factor
+  soft_tau: 0.005        # Target network soft update katsayısı
+  target_entropy: -1.0   # SAC entropi hedefi = -dim(action_space)
+
+buffer:
+  capacity: 100000
+
+training:
+  max_episodes: 1000
+  max_steps: 500
+  warmup_steps: 1000     # İlk N adım rastgele aksiyon (keşif)
+  batch_size: 256
+  save_interval: 50      # Her N episode'da checkpoint kaydet
+  log_interval: 10       # Her N episode'da TensorBoard'a yaz
